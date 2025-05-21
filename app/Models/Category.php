@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
-    public function movie():HasMany
+    protected $fillable = ['category_name', 'description'];
+
+    public function movie(): HasMany
     {
         return $this->hasMany(Movie::class);
     }

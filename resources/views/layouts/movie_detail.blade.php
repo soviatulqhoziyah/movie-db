@@ -14,6 +14,7 @@
                 <p class="card-text">{{ $movie->synopsis }}</p>
                 <p class="text-muted">Year: {{ $movie->year }}</p>
                 <p class="text-muted">Category: {{ $movie->category->category_name ?? '-' }}</p>
+                <p class="text-muted">Aktor: {{ $movie->actors }}</p>
 
 
                 <a href="{{ url()->previous() }}" class="btn btn-secondary mt-3">Back</a>

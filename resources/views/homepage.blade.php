@@ -7,7 +7,7 @@
     @foreach ($movies as $movie)
         <div class="col">
             <div class="card h-100 d-flex flex-row">
-                <img src="{{ $movie->cover_image }}" class="img-fluid" alt="{{ $movie->title }}" style="max-width: 180px; object-fit: cover;">
+                <img src="{{asset ($movie->cover_image) }}" class="img-fluid" alt="{{ $movie->title }}" style="max-width: 180px; object-fit: cover;">
                 <div class="card-body">
                     <h5 class="card-title">{{ $movie->title }}</h5>
                     <p class="card-text">{{ Str::limit($movie->synopsis, 150) }}</p>
