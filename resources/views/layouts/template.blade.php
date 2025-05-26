@@ -14,7 +14,29 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/movie/create">Input Movie</a></li>
+                    @auth
+  <li class="nav-item">
+    <a class="nav-link {{ request()->is('movie/create') ? 'active' : '' }}" href="/movie/create">Input Movie</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link disabled">{{ Auth::user()->name }}</a>
+  </li>
+
+  <li class="nav-item">
+    <form action="{{ route('logout') }}" method="POST">
+      @csrf
+      <button type="submit" class="nav-link btn btn-link text-white" style="text-decoration: none;">
+        Logout
+      </button>
+    </form>
+  </li>
+@else
+  <li class="nav-item">
+    <a class="nav-link" href="/login">Login</a>
+  </li>
+@endauth
+                   
                 </ul>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search">
