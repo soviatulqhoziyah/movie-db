@@ -22,8 +22,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrap();
+        
         // Authorization untuk fungsi delete  hanya untuk admin
         Gate::define('delete-movie',  function($user){
+            return $user->role === 'admin';
 
         });
     }

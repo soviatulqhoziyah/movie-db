@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Movie;
-use Illuminate\Http\Request;
+use App\Models\Category;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
  
 class MovieController extends Controller
 {
@@ -88,6 +89,8 @@ class MovieController extends Controller
 
     public function destroy($id)
     {
+        if (Gate::allows('delete-movie')) {
+            
         $movie = Movie::findOrFail($id);
 
         // Hapus cover image jika ada
@@ -98,6 +101,8 @@ class MovieController extends Controller
         $movie->delete();
 
         return redirect()->route('admin.movies.list')->with('success', 'Data movie berhasil dihapus.');
+        }
+        abort(403);
     }
 
     public function update(Request $request, $id)

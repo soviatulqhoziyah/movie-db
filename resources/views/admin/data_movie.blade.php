@@ -38,13 +38,15 @@
                         @if (auth()->user()->role == 'admin')
                         <a href="{{ route('movie.edit', $movie->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         @endif
-
+                        @can('movie-delete')
+                            
                         <form action="{{ url('movie.destroy' . $movie->id) }}" method="POST" class="d-inline"
                             onsubmit="return confirm('Yakin ingin menghapus data ini?')">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-sm">Delete</button>
                         </form>
+                        @endcan
                         <a href="{{ route('detail', $movie->id) }}" class="btn btn-info btn-sm">Detail</a>
                     </td>
                 </tr>
