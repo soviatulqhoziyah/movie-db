@@ -9,6 +9,14 @@
 <form action="/movie/store" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
     @csrf {{-- Jangan lupa token CSRF untuk keamanan --}}
 
+    {{-- Submit Button --}}
+       <div class="mb-3 row">
+        <div class="col text-start">
+            <a href="{{ route('admin.movies.list') }}" class="btn btn-primary">Data</a>
+        </div>
+    </div>
+    
+
     {{-- Title --}}
     <div class="mb-3 row">
     <label for="title" class="col-sm-2 col-form-label">Title</label>
