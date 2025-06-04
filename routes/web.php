@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/movie/create', [MovieController::class, 'create'])->name('movies.create');
 
     // Proses simpan movie baru
-    Route::post('/movie', [MovieController::class, 'store'])->name('movies.store');
+    Route::post('/movie/store', [MovieController::class, 'store'])->name('movies.store');
 
     // Proses update movie
     Route::put('/movies/{id}', [MovieController::class, 'update'])->name('movie.update')->middleware('auth', RoleAdmin::class);;
@@ -55,5 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/movies/{id}', [MovieController::class, 'destroy'])->name('movie.destroy');
 
     Route::get('/movie', [MovieController::class, 'index'])->name('movie.index');
+
+    Route::get('/admin/movies', [MovieController::class, 'searching'])->name('admin.movies.list');
+
 
 });

@@ -44,7 +44,7 @@ class MovieController extends Controller
     public function store(Request $request)
     {
         // validasi input
-        $data = $request->validate([
+        $validated = $request->validate([
             'title'       => 'required|string|max:255',
             'synopsis'    => 'required|string',
             'category_id' => 'required|exists:categories,id',
@@ -55,13 +55,22 @@ class MovieController extends Controller
 
         // upload file cover_image ke storage/app/public/cover_images
         $path = $request->file('cover_image')->store('cover_images', 'public');
-        $data['cover_image'] = '/storage/'.$path;
+        // $validated['cover_image'] = '/storage/'.$path;
 
         // generate slug dari title
-        $data['slug'] = Str::slug($data['title']);
+        // $data['slug'] = Str::slug($data['title']);
 
         // simpan ke table movies
-        Movie::create($data);
+        Movie::create([
+           'title' => $validated['title'],
+            'cover_image' => $path,
+            'slug' => Str::slug($validated['title']),
+            'synopsis' => $validated['synopsis'],
+            'year' => $validated['year'],
+            'category_id' => $validated['category_id'],
+            'actors' => $validated['actors'],
+            
+        ]);
 
         return redirect()->route('homepage')
                          ->with('success', 'Movie berhasil disimpan!');
@@ -152,4 +161,27 @@ class MovieController extends Controller
         $movie = Movie::find($id);
         return view('admin.detail_movie', compact('movie'));
     }
+
+    public function searching(Request $request)
+{
+    $query = Movie::with('category');
+
+    if ($request->has('q') && $request->q != '') {
+        $search = $request->q;
+        $query->where(function ($q) use ($search) {
+            $q->where('title', 'like', '%' . $search . '%')
+              ->orWhere('actors', 'like', '%' . $search . '%')
+              ->orWhere('year', 'like', '%' . $search . '%');
+        });
+    }
+
+    $movies = $query->paginate(6)->withQueryString();
+
+    return view('admin.data_movie', [
+        'movies' => $movies,
+        'currentPage' => $movies->currentPage(),
+        'lastPage' => $movies->lastPage(),
+    ]);
+}
+
 }
